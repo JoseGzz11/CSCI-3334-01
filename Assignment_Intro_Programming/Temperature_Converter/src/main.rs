@@ -13,16 +13,16 @@ fn celsius_to_fahrenheit(c: f64) -> f64 {
 
 fn main() {
     //Declares a mutable variable with a temperature in Fahrenheit
-    let mut temperature_f: f64 = 32.0;
+    let _temperature_f: f64 = 32.0;
     //Declare a mutable variable with a temperature in Celcius
-    let mut temperature_c: f64 = 0.0;
+    let temperature_c: f64 = 0.0;
 
     // Converts it to Fahrenheit using your function and prints the result
     let mut temperature_f: f64 = celsius_to_fahrenheit(temperature_c);
     println!("{}°C to {:.2}°F", temperature_c, temperature_f);
 
     // Converts it to Celsius using your function and prints the result
-    let mut temperature_c: f64 = fahrenheit_to_celsius(temperature_f);
+    let temperature_c: f64 = fahrenheit_to_celsius(temperature_f);
     println!("{}°F to {:.2}°C", temperature_f, temperature_c);
 
     // Uses a loop to convert and print the next 5 integer temperatures 

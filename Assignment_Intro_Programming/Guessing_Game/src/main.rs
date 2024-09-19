@@ -1,3 +1,4 @@
+// Implements a function check_guess(guess: i32, secret: i32) -> i32
 fn check_guess(guess: i32, secret: i32) -> i32 {
     if guess < secret {
         1
@@ -11,6 +12,7 @@ fn check_guess(guess: i32, secret: i32) -> i32 {
 }
 
 fn main() {
+    // Use a mutable variable to store a "secret" number
     let secret_num: i32 = 6;
     let _num_guesses: i32 = 0;
     let mut guess = 0;
