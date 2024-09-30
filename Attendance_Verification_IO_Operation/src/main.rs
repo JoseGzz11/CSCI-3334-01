@@ -24,7 +24,7 @@ impl Car {
 }
 
 fn reading_from_file() {
-    let car = Car::from_file("car.txt");
+    let car = Car::from_file("user_info.txt");
     println!("Make: {}", car.make);
     println!("Model: {}", car.model);
     println!("Year: {}", car.year);
