@@ -34,6 +34,14 @@ impl BankAccount {
         // Implement this method
         return self.balance;
     }
+
+    pub fn apply_interest(&mut self, mut percent: f64) {
+        if percent > 0.0 {
+            percent = percent * 0.01;
+
+            self.balance = (self.balance * percent) + self.balance; 
+        }
+    }
 }
 
 fn main() {
@@ -46,6 +54,9 @@ fn main() {
     println!("{:?}", account);
 
     account.withdraw(400.0);
+    println!("{:?}", account);
+
+    account.apply_interest(4.6);
     println!("{:?}", account);
 }
 
@@ -109,6 +120,21 @@ mod tests {
         assert_eq!(account.balance, 1500.0);
     }
 
+    #[test]
+    fn test_apply_interest() {
+        // Write a test for applying an interest rate percentage
+        let mut account = BankAccount::new(1500.0);
+        account.apply_interest(2.6);
+        assert_eq!(account.balance, 1539.0);
+    }
+
+    #[test]
+    fn test_apply_negative_interest() {
+        // Write a test for applying a negative interest rate percentage
+        let mut account = BankAccount::new(1500.0);
+        account.apply_interest(-2.6);
+        assert_eq!(account.balance, 1500.0);
+    }
 
     
 }
