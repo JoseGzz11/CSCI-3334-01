@@ -1,23 +1,32 @@
-use std::fs::File;
-use std::io::ErrorKind;
-use std::Read;
-use std::io;
+use std::rc::Rc;
+use std::cell::RefCell;
 
-fn read_username_from_file() -> Result<String, io::Error> {
-    let f = File::open("username.txt");
-    let mut f = match f {
-        Ok(file) => file,
-        Err(e) => return Err(e),
-    };
-    let mut s = String::new();
-    match f.read_to_string(&mut s) {
-        Ok(_) => Ok(s),
-        Err(e) => Err(e),
+fn sharing_resource_refcell_count() {
+    struct FamilyMember {
+        tv: Rc<RefCell<TV>>,
     }
-}
 
-fn main() {
-    let username = read_username_from_file() -> Result<String, io::Error> {
-
+    #[derive(Debug)]
+    struct TV {
+        channel: String,
     }
+
+    fn member_start_watch_tv() -> FamilyMember {
+        let tv_is_on = Rc::new(RefCell::new(TV{channel:"BBC".to_string()}));
+        FamilyMember {
+            tv: tv_is_on, 
+        }
+    }
+
+    let dad = member_start_watch_tv();
+    let mom = FamilyMember { tv: Rc::clone(&dad.tv) };
+    println!("TV channel for mom {:?}", mom.tv);
+
+    let mut remote_control = dad.tv.borrow_mut();
+    println!("TV channel {:?}", remote_control);
+
+    remote_control.channel = "MTV".to_string();
+    println!("TV channel {:?}", remote_control);
+    drop(remote_control);
+    println!("TV channel for mom {:?}", mom.tv);
 }
