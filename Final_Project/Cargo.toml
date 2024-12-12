@@ -1,0 +1,9 @@
+[package]
+name = "Final_Project"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ureq = "2.7.0"  # Replace with the latest version if necessary
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }

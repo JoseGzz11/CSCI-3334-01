@@ -1,32 +1,28 @@
-use std::rc::Rc;
-use std::cell::RefCell;
+fn sending_data_across_threads() {
+    extern crate rand; // 0.8.5
 
-fn sharing_resource_refcell_count() {
-    struct FamilyMember {
-        tv: Rc<RefCell<TV>>,
+    use std::thread;
+    // multiproducer, single consumer
+    use std::sync::mpsc::channel;
+
+    let (sender,reciever) = channel();
+
+    for i in 0..10 {
+        let sender = sender.clone();
+        thread::spawn(move || {
+            println!("sending: {}",i);
+            sender.send(i).unwrap(); // any data could be passed to reciever
+            // as well as sending could fail
+        });
     }
 
-    #[derive(Debug)]
-    struct TV {
-        channel: String,
+    for _ in 0..10 {
+        let msg = reciever.recv().unwrap();
+        println!(" recieved {}", msg );
     }
+    // what is important to notice, data will be send and recieved in random order
+    // but you will get them in exact order, just be aware of potential queue
 
-    fn member_start_watch_tv() -> FamilyMember {
-        let tv_is_on = Rc::new(RefCell::new(TV{channel:"BBC".to_string()}));
-        FamilyMember {
-            tv: tv_is_on, 
-        }
-    }
+    // basically CPU whim
 
-    let dad = member_start_watch_tv();
-    let mom = FamilyMember { tv: Rc::clone(&dad.tv) };
-    println!("TV channel for mom {:?}", mom.tv);
-
-    let mut remote_control = dad.tv.borrow_mut();
-    println!("TV channel {:?}", remote_control);
-
-    remote_control.channel = "MTV".to_string();
-    println!("TV channel {:?}", remote_control);
-    drop(remote_control);
-    println!("TV channel for mom {:?}", mom.tv);
 }
